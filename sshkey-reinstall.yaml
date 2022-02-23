@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: resshkey
+  namespace: kube-system
+  labels:
+    k8s-app: resshkey
+spec:
+  selector:
+    matchLabels:
+      app: resshkey
+  template:
+    metadata:
+      labels:
+        app: resshkey
+    spec:
+      containers:
+      - name: resshkey
+        image: busybox
+        command: [ 'sh' ]
+        args: [ '-c', 'cp /home/core/ssh-key /home/capv/.ssh/authorized_keys && exec tail -f /dev/null' ]
+        volumeMounts:
+        - name: capv-home
+          mountPath: /home/capv/.ssh
+        - name: ssh-key
+          mountPath: /home/core
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: capv-home
+        hostPath:
+          path: /home/capv/.ssh
+      - name: ssh-key
+        secret:
+          secretName: ssh-key

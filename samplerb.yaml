@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cm-reader-binding2
+  namespace: extensiones-c8388a7f
+roleRef: # points to my Role
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cm-reader # name of role
+subjects: # points to my ServiceAccount
+- kind: ServiceAccount
+  name: extensiones-0f4a1db # service account to bind to
+  namespace: extensiones-c8388a7f # ns of service account

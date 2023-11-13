@@ -1,5 +1,5 @@
+#Desde cluster supervisor ejecutamos
 total_cpus=0
-
 # Obtener el número de CPUs de las máquinas virtuales de tanzu
 kubectl get virtualmachine -o -A custom-columns=NAME:.metadata.name,VMCLASS:.spec.className --no-headers | \
 while read -r name vmclass; do
